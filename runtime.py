@@ -64,7 +64,13 @@ class GCC_Dynamic_Execute:
 
         self.output = output
         self.console_display = 'None'
+        self.read = True
         self.get_output()
+        reader_thread = threading.Thread(target = self.reader)
+        reader_thread.start()
+
+    def __del__(self):
+        self.read = False
 
     def set_input(self):
         if self.proc.poll(): return
@@ -72,7 +78,6 @@ class GCC_Dynamic_Execute:
         new_console = new_console.replace('\n', '')
         input_data = new_console.replace(self.console_display, '')
         self.write_input(input_data)
-        self.get_output()
 
     def write_input(self, input_line):
         if self.proc.poll(): return
@@ -82,12 +87,14 @@ class GCC_Dynamic_Execute:
             self.proc.stdin.flush()
 
     def get_output(self):
-        if self.proc.poll(): return
-        '''while os.isatty(self.proc.stdout):
-            stdout += self.proc.stdout.readline()[:-1]'''
-
+        self.proc.stdout.flush()
         stdout = self.proc.stdout.readline()
-
+        stdout = stdout.decode()
         self.output.insert(INSERT, stdout)
         self.console_display = self.output.get('1.0', END)
         self.console_display = self.console_display.replace('\n', '')
+
+    def reader(self):
+        while self.read:
+            self.get_output()
+            time.sleep(0.1)

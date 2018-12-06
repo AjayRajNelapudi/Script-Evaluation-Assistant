@@ -1,14 +1,21 @@
 #include <stdio.h>
 
 int main() {
-    int n;
+    int n, y;
 
-    printf("Enter N value: ");printf("\n");fflush(stdout);/**/
+    printf("Enter N value: "); printf("\n"); fflush(stdout); /**/
     scanf("%d", &n);
     
-    for(int i=0; i<n; i++) {
-        printf("%d\n", i);printf("\n");fflush(stdout);/**/
+    for(int i=1; i<=n; i+=1) {
+        printf("%d\n", i); fflush(stdout); /**/
     }
 
     return 0;
 }
+
+
+
+
+
+
+

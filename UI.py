@@ -126,18 +126,18 @@ masthead.place(x = 450, y = 700, height = 50, width = 500)'''
 
 window.bind('<Return>', enter_command)
 
-code_label = Label(window, text = 'CODE',bg='white',  relief = RAISED)
+code_label = Label(window, text = 'CODE', relief = RAISED)
 code_label.place(x = 30, y = 50, height = 30, width = 100)
 code_text = Text(window, font = ('Monaco', 14))
 code_text.place(x = 30, y = 80, height = 400, width = 700)
 
-output_title = Label(window, text = 'OUTPUT',bg='white',  relief = RAISED)
+output_title = Label(window, text = 'OUTPUT', relief = RAISED)
 output_title.place(x = 30, y = 500, height = 30, width = 100)
 
 output_text = Text(window, font = ('Monaco', 14))
 output_text.place(x = 30, y = 530, height = 200, width = 700)
 
-rollno_label = Label(window, text = 'Roll No',bg='white',  relief = RAISED)
+rollno_label = Label(window, text = 'Roll No', relief = RAISED)
 rollno_label.place(x = 900, y = 50, height = 30, width = 100)
 
 reg_ids = mysql.get_student_regids()
@@ -146,7 +146,7 @@ regid_var.set(reg_ids[0])
 rollno_optionsmenu = OptionMenu(window, regid_var, *reg_ids)
 rollno_optionsmenu.place(x = 1020, y = 50, height = 30, width = 150)
 
-script_spec = Label(window, text = 'Week & Script',bg='white',  relief = RAISED)
+script_spec = Label(window, text = 'Week & Script', relief = RAISED)
 script_spec.place(x = 900, y = 100, height = 30, width = 100)
 
 weeks = mysql.get_weeks_list()
@@ -161,34 +161,34 @@ script_var.set(script_names[0])
 scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command = display_script)
 scriptname_optionmenu.place(x = 1120, y = 100, height = 30, width = 200)
 
-input_label = Label(window, text = 'Input', bg='white', relief = RAISED)
+input_label = Label(window, text = 'Input', relief = RAISED)
 input_label.place(x = 900, y = 150, height = 30, width = 100)
 
 input_entry = Entry(window)
 input_entry.place(x = 1020, y = 150, height = 100, width = 300)
 
 exec_type = StringVar()
-static_exec = Radiobutton(window, text = 'Static', bg='white', variable = exec_type, value = 'static')
+static_exec = Radiobutton(window, text = 'Static', variable = exec_type, value = 'static')
 static_exec.place(x = 1020, y = 270)
-dynamic_exec = Radiobutton(window, text = 'Dynamic',bg='white',  variable = exec_type, value = 'dynamic')
+dynamic_exec = Radiobutton(window, text = 'Dynamic', variable = exec_type, value = 'dynamic')
 dynamic_exec.place(x = 1100, y = 270)
 
-execute_button = Button(window, text = 'Execute',bg='white',  command = Exec_Helper.get_script_output)
+execute_button = Button(window, text = 'Execute', command = Exec_Helper.get_script_output)
 execute_button.place(x = 1020, y = 320, height = 30, width = 140)
 
-grade_label = Label(window, text = 'Grade',bg='white',  relief = RAISED)
+grade_label = Label(window, text = 'Grade', relief = RAISED)
 grade_label.place(x = 900, y = 400, height = 30, width = 100)
 
 grade_entry = Entry(window)
 grade_entry.place(x = 1020, y = 400, height = 30, width = 120)
 
-feedback_label = Label(window, text = 'Feedback',bg='white',  relief = RAISED)
+feedback_label = Label(window, text = 'Feedback', relief = RAISED)
 feedback_label.place(x = 900, y = 450, height = 30, width = 100)
 
 feedback_entry = Entry(window)
 feedback_entry.place(x = 1020, y = 450, height = 100, width = 300)
 
-grade_button = Button(window, text = 'Post Grade & Feedback',bg='white',  command = award_grade)
+grade_button = Button(window, text = 'Post Grade & Feedback', command = award_grade)
 grade_button.place(x = 1020, y = 600, height = 30, width = 180)
 
 window.config(menu = menubar)

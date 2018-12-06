@@ -1,20 +1,19 @@
 #include <stdio.h>
 
 int main() {
+setbuf(stdout, NULL);
     int a, b;
-    printf("Enter A value: ");/**/
-printf("\n");fflush(stdout);/**/
+    printf("Enter A value: ");
     scanf("%d", &a);
 
-    printf("Enter B value: ");/**/
-printf("\n");fflush(stdout);/**/
+    printf("Enter B value: ");
     scanf("%d", &b);
 
     if (a % b == 0) {
-        printf("divisible");/**/
-printf("\n");fflush(stdout);/**/
+        printf("divisible");
     } else {
-        printf("not divisible");/**/
-printf("\n");fflush(stdout);/**/
+        printf("not divisible");
     }
 }
+
+

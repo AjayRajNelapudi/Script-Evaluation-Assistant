@@ -6,13 +6,15 @@ def execute(command):
     proc = Popen(command, stdin = PIPE, stdout = PIPE, shell = True)
     while proc.poll() is None:
         stdout = proc.stdout.readline().decode()
-        print(stdout)
+        print(stdout, end = ' ')
         proc.stdin.write(b'5\n')
         with suppress(Exception):
             proc.stdin.flush()
+        import time
+        time.sleep(3)
 
     stdout = proc.stdout.readline().decode()
-    print(stdout[:-1])
+    print(stdout, end = ' ')
         
 try:
     Popen(['gcc', 'DisplayN.c']).wait()
