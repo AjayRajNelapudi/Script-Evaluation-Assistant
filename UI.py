@@ -11,13 +11,16 @@ if os.name == 'nt':
     separator = "\\"
 
 class Exec_Helper:
+    '''
+    Exec_Helper is a static class that connects the UI to the runtime module
+    '''
     process = None
     def get_script_output():
         roll_no = regid_var.get()
         path = mysql.get_script_path(roll_no)
         script_name = script_var.get()
         script_id = mysql.get_script_id(script_name)
-        input_text = input_entry.get()
+        input_text = input_entry.get('1.0', END)
         if input_text == '***':
             input_text = mysql.get_input_text(script_id)
         language = mysql.get_script_runtime(script_id)
@@ -38,7 +41,8 @@ class Exec_Helper:
         else:
             output_text.delete('1.0', END)
             try:
-                Exec_Helper.process = runtime.GCC_Dynamic_Execute(script_name, path, output_text)
+                language = mysql.get_script_runtime(script_id)
+                Exec_Helper.process = runtime.GCC_Dynamic_Execute(script_name, path, output_text, compiler = language)
             except:
                 # display message = "Compile Time Error"
                 pass
@@ -52,7 +56,7 @@ def award_grade():
     except:
         return
 
-    feedback = feedback_entry.get()
+    feedback = feedback_entry.get('1.0', END)
     script_name = script_var.get()
     script_id = mysql.get_script_id(script_name)
     grade = grade_entry.get()
@@ -70,7 +74,9 @@ def display_script(script_name):
     path = mysql.get_script_path(roll_no)
 
     with open(path + separator + script_name) as code_file:
-        code_text.insert(INSERT, code_file.read())
+        for line in code_file.readlines():
+            line = line.replace('\t', '\t\t')
+            code_text.insert(INSERT, line)
 
 def weekno_command(week_no):
     global script_names, script_var, scriptname_optionmenu
@@ -126,18 +132,18 @@ masthead.place(x = 450, y = 700, height = 50, width = 500)'''
 
 window.bind('<Return>', enter_command)
 
-code_label = Label(window, text = 'CODE', relief = RAISED)
-code_label.place(x = 30, y = 50, height = 30, width = 100)
+code_label = Label(window, text = 'CODE')
+code_label.place(x = 30, y = 20, height = 30, width = 100)
 code_text = Text(window, font = ('Monaco', 14))
-code_text.place(x = 30, y = 80, height = 400, width = 700)
+code_text.place(x = 30, y = 50, height = 400, width = 700)
 
-output_title = Label(window, text = 'OUTPUT', relief = RAISED)
+output_title = Label(window, text = 'OUTPUT')
 output_title.place(x = 30, y = 500, height = 30, width = 100)
 
 output_text = Text(window, font = ('Monaco', 14))
 output_text.place(x = 30, y = 530, height = 200, width = 700)
 
-rollno_label = Label(window, text = 'Roll No', relief = RAISED)
+rollno_label = Label(window, text = 'Roll No')
 rollno_label.place(x = 900, y = 50, height = 30, width = 100)
 
 reg_ids = mysql.get_student_regids()
@@ -146,7 +152,7 @@ regid_var.set(reg_ids[0])
 rollno_optionsmenu = OptionMenu(window, regid_var, *reg_ids)
 rollno_optionsmenu.place(x = 1020, y = 50, height = 30, width = 150)
 
-script_spec = Label(window, text = 'Week & Script', relief = RAISED)
+script_spec = Label(window, text = 'Week & Script')
 script_spec.place(x = 900, y = 100, height = 30, width = 100)
 
 weeks = mysql.get_weeks_list()
@@ -161,10 +167,10 @@ script_var.set(script_names[0])
 scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command = display_script)
 scriptname_optionmenu.place(x = 1120, y = 100, height = 30, width = 200)
 
-input_label = Label(window, text = 'Input', relief = RAISED)
+input_label = Label(window, text = 'Input')
 input_label.place(x = 900, y = 150, height = 30, width = 100)
 
-input_entry = Entry(window)
+input_entry = Text(window, font = ('Monaco', 12))
 input_entry.place(x = 1020, y = 150, height = 100, width = 300)
 
 exec_type = StringVar()
@@ -176,16 +182,16 @@ dynamic_exec.place(x = 1100, y = 270)
 execute_button = Button(window, text = 'Execute', command = Exec_Helper.get_script_output)
 execute_button.place(x = 1020, y = 320, height = 30, width = 140)
 
-grade_label = Label(window, text = 'Grade', relief = RAISED)
+grade_label = Label(window, text = 'Grade')
 grade_label.place(x = 900, y = 400, height = 30, width = 100)
 
 grade_entry = Entry(window)
 grade_entry.place(x = 1020, y = 400, height = 30, width = 120)
 
-feedback_label = Label(window, text = 'Feedback', relief = RAISED)
+feedback_label = Label(window, text = 'Feedback')
 feedback_label.place(x = 900, y = 450, height = 30, width = 100)
 
-feedback_entry = Entry(window)
+feedback_entry = Text(window, font = ('Monaco', 12))
 feedback_entry.place(x = 1020, y = 450, height = 100, width = 300)
 
 grade_button = Button(window, text = 'Post Grade & Feedback', command = award_grade)

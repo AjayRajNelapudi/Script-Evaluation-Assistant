@@ -42,7 +42,11 @@ def static_execute(script, runtime, path, input_data):
     return status.returncode
 
 class GCC_Dynamic_Execute:
-    def __init__(self, script, path, output):
+    '''
+    GCC_Dynamic_Execute is a class that executes the student's program
+    It dynamically passes the input and reads the outputs
+    '''
+    def __init__(self, script, path, output, compiler = 'gcc'):
         if script is None or path is None or output is None: return
         with open(path + separator + script, 'r') as script_file:
             code = script_file.readlines()
@@ -54,7 +58,7 @@ class GCC_Dynamic_Execute:
                 else:
                     script_file.write(line)
 
-        Popen(['gcc', script], cwd = path).wait()
+        Popen([compiler, script], cwd = path).wait()
 
         self.proc = Popen('./a.out',
                      cwd=path,
@@ -73,6 +77,11 @@ class GCC_Dynamic_Execute:
         self.read = False
 
     def set_input(self):
+        '''
+        set_input(self)
+        :return: None
+        Reads the input entered by the user by considering the previous data in the textbox
+        '''
         if self.proc.poll(): return
         new_console = self.output.get('1.0', END)
         new_console = new_console.replace('\n', '')
@@ -80,6 +89,12 @@ class GCC_Dynamic_Execute:
         self.write_input(input_data)
 
     def write_input(self, input_line):
+        '''
+        write_input(self, input_line)
+        :param input_line: the line to be passed as input to the student program
+        :return: None
+        Writes input to the student program pipe
+        '''
         if self.proc.poll(): return
         input_line = input_line + '\n'
         self.proc.stdin.write(input_line.encode())
@@ -87,6 +102,10 @@ class GCC_Dynamic_Execute:
             self.proc.stdin.flush()
 
     def get_output(self):
+        '''
+        get_output(self)
+        :return: The output printed by student program
+        '''
         self.proc.stdout.flush()
         stdout = self.proc.stdout.readline()
         stdout = stdout.decode()
@@ -95,6 +114,11 @@ class GCC_Dynamic_Execute:
         self.console_display = self.console_display.replace('\n', '')
 
     def reader(self):
+        '''
+        reader(self)
+        :return: None
+        Implemented as a thread to continuously read student program output
+        '''
         while self.read:
             self.get_output()
-            time.sleep(0.1)
+            time.sleep(0.001)
