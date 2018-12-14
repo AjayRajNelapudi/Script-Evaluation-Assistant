@@ -1,0 +1,51 @@
+body {
+	background-color: #ADD8E6;
+}
+
+table.login {
+	border-spacing: 20px;
+	font-family: Arial;
+	border-radius: 20px;
+}
+
+input.entry {
+	border-radius: 8px;
+	width: 300px;
+	height: 30px;
+	background-color: #ECF0F1;
+}
+
+input.login {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  width: 100%;
+  border-radius: 15px;
+}
+
+
+p.heading {
+	font-family: Arial;
+	font-size: 30px;
+	background-color: maroon;
+	color: white;
+}
+
+img.logo {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 30%;
+}
+
+td {
+  padding-top:10px;
+  padding-bottom:10px;
+  padding-right:20px;  
+}
+
+td.textstyle {
+	font-family: Arial, Helvetica, Serif;
+	font-size: 14px;
+}
+
